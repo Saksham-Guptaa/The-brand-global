@@ -1,7 +1,9 @@
 "use client";
 import React, { FC, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import logo from "../../public/tbg_logo.png";
+import { getCurrentUser } from "@/lib/auth";
 
 interface RecentPost {
   title: string;
@@ -22,6 +24,10 @@ const Header: FC = () => {
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [isTablet, setIsTablet] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,6 +45,46 @@ const Header: FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      setIsLoading(true);
+      const { user, error } = await getCurrentUser();
+      if (user) {
+        setCurrentUser(user);
+      }
+      setIsLoading(false);
+    };
+
+    fetchCurrentUser();
+  }, []);
+
+  const handleProfileClick = () => {
+    if (currentUser) {
+      // Redirect based on user role
+      const role = currentUser.user_metadata?.role;
+      if (role === "admin") {
+        navigate("/admin");
+      } else if (role === "editor") {
+        navigate("/editor");
+      } else if (role === "writer") {
+        navigate("/writer");
+      } else {
+        navigate("/profile");
+      }
+    } else {
+      // Redirect to signup if not logged in
+      navigate("/signup");
+    }
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setShowSearch(false);
+    }
+  };
+
   const leftSidebarVariants = {
     hidden: { x: "-100%" },
     visible: { x: 0, transition: { duration: 0.5 } },
@@ -51,15 +97,14 @@ const Header: FC = () => {
 
   const recentPosts: RecentPost[] = [
     { title: "The Davos Agenda", date: "January 25, 2021", image: "davos.jpg" },
-    { title: "Meet black bbw lesbians near you", date: "November 09, 2024" },
+    { title: "Latest Tech Trends in 2024", date: "November 09, 2024" },
     {
-      title:
-        "Explore the best possible adult swinger sites and discover your match",
+      title: "How AI is Transforming Business Operations",
       date: "November 09, 2024",
     },
-    { title: "Why date older women?", date: "November 09, 2024" },
+    { title: "The Future of Remote Work", date: "November 09, 2024" },
     {
-      title: "How to get going with men seeking men sites?",
+      title: "Sustainable Business Practices for 2025",
       date: "November 03, 2024",
     },
   ];
@@ -115,6 +160,17 @@ const Header: FC = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
 
+  // Left sidebar items for both mobile and desktop
+  const leftSidebarItems = [
+    { icon: "📹", label: "VIDEO" },
+    { icon: "🎧", label: "PODCASTS" },
+    {
+      icon: "👥",
+      label: "About Us",
+      dropdown: ["Who We Are", "Our Team", "Our Culture", "Contact Us"],
+    },
+  ];
+
   return (
     <div className="bg-black z-10 relative flex flex-col md:flex-row px-4 sm:px-8 md:px-12 lg:px-16 justify-between md:justify-around text-base sm:text-lg h-auto py-4 md:h-20 font-semibold text-white items-center">
       <div className="flex w-full md:w-auto justify-between items-center mb-4 md:mb-0">
@@ -136,6 +192,7 @@ const Header: FC = () => {
         </div>
       </div>
 
+      {/* Left Sidebar - Mobile */}
       <AnimatePresence>
         {isLeftSidebarOpen && (
           <motion.div
@@ -156,64 +213,68 @@ const Header: FC = () => {
             </div>
 
             <div className="mt-5 flex items-center relative">
-              <input
-                type="text"
-                placeholder="Search Country"
-                className="w-full p-2 text-black outline-none rounded"
-              />
-              <button className="absolute right-2 p-2 bg-red-500 rounded text-white">
-                🔍
-              </button>
+              <form onSubmit={handleSearchSubmit} className="w-full flex">
+                <input
+                  type="text"
+                  placeholder="Search Blogs"
+                  className="w-full p-2 text-black outline-none rounded-l"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="p-2 bg-red-500 rounded-r text-white"
+                >
+                  🔍
+                </button>
+              </form>
             </div>
 
             <ul className="mt-5 space-y-4">
-              <li className="flex items-center p-2 hover:bg-gray-800 rounded">
-                <span className="mr-2">📹</span>
-                VIDEO
-              </li>
-              <li className="flex items-center p-2 hover:bg-gray-800 rounded">
-                <span className="mr-2">🎧</span>
-                PODCASTS
-              </li>
-              <li
-                className="flex flex-col items-start cursor-pointer p-2 hover:bg-gray-800 rounded"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                <div className="flex items-center w-full justify-between">
-                  <div className="flex items-center">
-                    <span className="mr-2">👥</span>
-                    About Us
-                  </div>
-                  <span>{isDropdownOpen ? "▲" : "▼"}</span>
-                </div>
-
-                <AnimatePresence>
-                  {isDropdownOpen && (
-                    <motion.ul
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                      variants={dropdownVariants1}
-                      className="ml-6 mt-2 space-y-2 w-full"
-                    >
-                      {[
-                        "Who We Are",
-                        "Our Team",
-                        "Our Culture",
-                        "Contact Us",
-                      ].map((item, index) => (
-                        <motion.li
-                          key={index}
-                          variants={itemVariants}
-                          className="hover:text-red-500 p-1"
-                        >
-                          - {item}
-                        </motion.li>
-                      ))}
-                    </motion.ul>
+              {leftSidebarItems.map((item, index) => (
+                <li key={index} className="flex flex-col items-start">
+                  {item.dropdown ? (
+                    <div className="w-full">
+                      <div
+                        className="flex items-center w-full justify-between p-2 hover:bg-gray-800 rounded cursor-pointer"
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      >
+                        <div className="flex items-center">
+                          <span className="mr-2">{item.icon}</span>
+                          {item.label}
+                        </div>
+                        <span>{isDropdownOpen ? "▲" : "▼"}</span>
+                      </div>
+                      <AnimatePresence>
+                        {isDropdownOpen && (
+                          <motion.ul
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            variants={dropdownVariants1}
+                            className="ml-6 mt-2 space-y-2 w-full"
+                          >
+                            {item.dropdown.map((subItem, idx) => (
+                              <motion.li
+                                key={idx}
+                                variants={itemVariants}
+                                className="hover:text-red-500 p-1"
+                              >
+                                - {subItem}
+                              </motion.li>
+                            ))}
+                          </motion.ul>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <div className="flex items-center p-2 hover:bg-gray-800 rounded w-full cursor-pointer">
+                      <span className="mr-2">{item.icon}</span>
+                      {item.label}
+                    </div>
                   )}
-                </AnimatePresence>
-              </li>
+                </li>
+              ))}
 
               {/* Mobile menu items */}
               {isMobile &&
@@ -223,7 +284,7 @@ const Header: FC = () => {
                     className="flex flex-col p-2 hover:bg-gray-800 rounded"
                   >
                     <div
-                      className="flex justify-between items-center w-full"
+                      className="flex justify-between items-center w-full cursor-pointer"
                       onClick={() =>
                         setOpenDropdown(openDropdown === index ? null : index)
                       }
@@ -245,7 +306,7 @@ const Header: FC = () => {
                             <motion.li
                               key={idx}
                               variants={itemVariants}
-                              className="hover:text-red-500 p-1"
+                              className="hover:text-red-500 p-1 cursor-pointer"
                             >
                               - {option}
                             </motion.li>
@@ -257,7 +318,7 @@ const Header: FC = () => {
                 ))}
 
               {isMobile && (
-                <li className="flex items-center p-2 hover:bg-gray-800 rounded">
+                <li className="flex items-center p-2 hover:bg-gray-800 rounded cursor-pointer">
                   Advertise With Us
                 </li>
               )}
@@ -267,7 +328,52 @@ const Header: FC = () => {
       </AnimatePresence>
 
       {/* Desktop/Tablet Navigation */}
-      {!isMobile && (
+      <div className="hidden md:flex md:flex-row md:items-center md:space-x-6 lg:space-x-10">
+        {/* Left sidebar items for desktop */}
+        <ul className="flex space-x-4 lg:space-x-6">
+          {leftSidebarItems.map((item, index) => (
+            <li
+              key={index}
+              className="relative hover:text-red-500 cursor-pointer"
+              onMouseEnter={
+                item.dropdown ? () => setIsDropdownOpen(true) : undefined
+              }
+              onMouseLeave={
+                item.dropdown ? () => setIsDropdownOpen(false) : undefined
+              }
+            >
+              <div className="flex items-center">
+                <span className="mr-1">{item.icon}</span>
+                <span>{item.label}</span>
+                {item.dropdown && (
+                  <span className="ml-1">{isDropdownOpen ? "▲" : "▼"}</span>
+                )}
+              </div>
+
+              {item.dropdown && isDropdownOpen && (
+                <motion.ul
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={dropdownVariants}
+                  className="absolute top-full mt-2 w-52 border-t-4 border-red-600 bg-white shadow-lg overflow-hidden z-50"
+                >
+                  {item.dropdown.map((subItem, idx) => (
+                    <motion.li
+                      key={idx}
+                      variants={dropdownVariants}
+                      className="px-4 py-2 border-b-[0.5px] border-gray-200 hover:bg-gray-100 transition cursor-pointer text-black"
+                    >
+                      {subItem}
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        {/* Main menu items */}
         <ul className="hidden md:flex flex-wrap justify-center space-x-3 lg:space-x-6 xl:space-x-10">
           {menuItems.map((menu, index) => (
             <li
@@ -305,7 +411,7 @@ const Header: FC = () => {
             Advertise With Us
           </li>
         </ul>
-      )}
+      </div>
 
       {/* Desktop/Tablet Right Section */}
       <div className="hidden md:flex space-x-5 items-center">
@@ -326,19 +432,30 @@ const Header: FC = () => {
               variants={searchVariants}
               className="absolute top-16 right-4 sm:right-16 md:right-32 p-2 bg-white mt-2 w-full max-w-xs sm:max-w-md flex items-center z-50"
             >
-              <input
-                type="text"
-                placeholder="Search"
-                className="flex-grow p-2 outline-none border border-r-0 text-black border-gray-300"
-              />
-              <button className="p-2 sm:p-3 px-3 sm:px-6 bg-red-500 text-white">
-                🔍
-              </button>
+              <form onSubmit={handleSearchSubmit} className="w-full flex">
+                <input
+                  type="text"
+                  placeholder="Search Blogs"
+                  className="flex-grow p-2 outline-none border border-r-0 text-black border-gray-300"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="p-2 sm:p-3 px-3 sm:px-6 bg-red-500 text-white"
+                >
+                  🔍
+                </button>
+              </form>
             </motion.div>
           )}
         </AnimatePresence>
 
-        <button className="text-white text-xl cursor-pointer hover:text-red-500">
+        <button
+          className="text-white text-xl cursor-pointer hover:text-red-500"
+          onClick={handleProfileClick}
+          title={currentUser ? "Go to Dashboard" : "Sign Up/Login"}
+        >
           👤
         </button>
         <button
@@ -359,14 +476,18 @@ const Header: FC = () => {
             variants={searchVariants}
             className="fixed top-16 left-0 right-0 p-4 bg-white z-50 mx-4 shadow-lg"
           >
-            <div className="flex items-center">
+            <form onSubmit={handleSearchSubmit} className="flex items-center">
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Search Blogs"
                 className="flex-grow p-2 outline-none border border-r-0 text-black border-gray-300"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button className="p-3 px-6 bg-red-500 text-white">🔍</button>
-            </div>
+              <button type="submit" className="p-3 px-6 bg-red-500 text-white">
+                🔍
+              </button>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>
@@ -394,7 +515,10 @@ const Header: FC = () => {
             </h2>
             <div className="flex flex-col space-y-4 mt-4 h-[80vh] overflow-y-scroll">
               {recentPosts.map((post, index) => (
-                <div key={index} className="flex space-x-3 items-start">
+                <div
+                  key={index}
+                  className="flex space-x-3 items-start cursor-pointer"
+                >
                   <div className="w-16 h-16 bg-gray-200 flex-shrink-0">
                     {post.image ? (
                       <div className="w-full h-full bg-gray-300" />
@@ -412,7 +536,9 @@ const Header: FC = () => {
                     )}
                   </div>
                   <div className="flex flex-col">
-                    <h3 className="text-sm font-semibold">{post.title}</h3>
+                    <h3 className="text-sm font-semibold text-black">
+                      {post.title}
+                    </h3>
                     <span className="text-xs text-gray-500">{post.date}</span>
                   </div>
                 </div>
