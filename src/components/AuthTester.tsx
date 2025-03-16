@@ -170,11 +170,11 @@ export default function AuthTester() {
         </TabsContent>
       </Tabs>
 
-      {result && (
+      {/* {result && (
         <Card className="mt-4 p-4">
           <pre className="whitespace-pre-wrap break-words">{result}</pre>
         </Card>
-      )}
+      )} */}
     </div>
   );
 }
