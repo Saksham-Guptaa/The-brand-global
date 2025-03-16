@@ -35,7 +35,6 @@ const Header: FC = () => {
       setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
     };
 
-    // Initial check
     handleResize();
 
     // Add event listener
