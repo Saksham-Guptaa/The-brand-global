@@ -13,7 +13,7 @@ interface RecentPost {
 
 interface MenuItem {
   title: string;
-  options: string[];
+  options: { label: string; link: string }[];
 }
 
 const Header: FC = () => {
@@ -138,20 +138,35 @@ const Header: FC = () => {
     {
       title: "Industries",
       options: [
-        "Education",
-        "Emerging Tech",
-        "Entertainment",
-        "Finance",
-        "IT",
-        "Marketing",
+        { label: "Education", link: "/industries/education" },
+        { label: "Emerging Tech", link: "/industries/emerging-tech" },
+        { label: "Entertainment", link: "/industries/entertainment" },
+        { label: "Finance", link: "/industries/finance" },
+        { label: "IT", link: "/industries/it" },
+        { label: "Marketing", link: "/industries/marketing" },
       ],
     },
     {
       title: "Associates",
-      options: ["Channel Partners", "Event Partners", "Community Partners"],
+      options: [
+        { label: "Channel Partners", link: "/associates/channel-partners" },
+        { label: "Event Partners", link: "/associates/event-partners" },
+        { label: "Community Partners", link: "/associates/community-partners" },
+      ],
     },
-    { title: "Magazine", options: ["Brand India Magzine"] },
-    { title: "Investors", options: ["Angel", "Venture Capitals"] },
+    {
+      title: "Magazine",
+      options: [
+        { label: "Brand India Magazine", link: "/magazine/brand-india" },
+      ],
+    },
+    {
+      title: "Investors",
+      options: [
+        { label: "Angel", link: "/investors/angel" },
+        { label: "Venture Capitals", link: "/investors/venture-capitals" },
+      ],
+    },
   ];
 
   const searchVariants = {
@@ -161,12 +176,17 @@ const Header: FC = () => {
 
   // Left sidebar items for both mobile and desktop
   const leftSidebarItems = [
-    { icon: "📹", label: "VIDEO" },
-    { icon: "🎧", label: "PODCASTS" },
+    { icon: "📹", label: "VIDEO", link: "/video" },
+    { icon: "🎧", label: "PODCASTS", link: "/podcasts" },
     {
       icon: "👥",
       label: "About Us",
-      dropdown: ["Who We Are", "Our Team", "Our Culture", "Contact Us"],
+      dropdown: [
+        { label: "Who We Are", link: "/about/who-we-are" },
+        { label: "Our Team", link: "/about/our-team" },
+        { label: "Our Culture", link: "/about/our-culture" },
+        { label: "Contact Us", link: "/about/contact-us" },
+      ],
     },
   ];
 
@@ -258,8 +278,9 @@ const Header: FC = () => {
                                 key={idx}
                                 variants={itemVariants}
                                 className="hover:text-red-500 p-1"
+                                onClick={() => navigate(subItem.link)}
                               >
-                                - {subItem}
+                                - {subItem.label}
                               </motion.li>
                             ))}
                           </motion.ul>
@@ -267,7 +288,10 @@ const Header: FC = () => {
                       </AnimatePresence>
                     </div>
                   ) : (
-                    <div className="flex items-center p-2 hover:bg-gray-800 rounded w-full cursor-pointer">
+                    <div
+                      className="flex items-center p-2 hover:bg-gray-800 rounded w-full cursor-pointer"
+                      onClick={() => navigate(item.link)}
+                    >
                       <span className="mr-2">{item.icon}</span>
                       {item.label}
                     </div>
@@ -306,8 +330,9 @@ const Header: FC = () => {
                               key={idx}
                               variants={itemVariants}
                               className="hover:text-red-500 p-1 cursor-pointer"
+                              onClick={() => navigate(option.link)}
                             >
-                              - {option}
+                              - {option.label}
                             </motion.li>
                           ))}
                         </motion.ul>
@@ -317,7 +342,10 @@ const Header: FC = () => {
                 ))}
 
               {isMobile && (
-                <li className="flex items-center p-2 hover:bg-gray-800 rounded cursor-pointer">
+                <li
+                  className="flex items-center p-2 hover:bg-gray-800 rounded cursor-pointer"
+                  onClick={() => navigate("/advertise-with-us")}
+                >
                   Advertise With Us
                 </li>
               )}
@@ -340,6 +368,7 @@ const Header: FC = () => {
               onMouseLeave={
                 item.dropdown ? () => setIsDropdownOpen(false) : undefined
               }
+              onClick={item.link ? () => navigate(item.link) : undefined}
             >
               <div className="flex items-center">
                 <span className="mr-1">{item.icon}</span>
@@ -362,8 +391,9 @@ const Header: FC = () => {
                       key={idx}
                       variants={dropdownVariants}
                       className="px-4 py-2 border-b-[0.5px] border-gray-200 hover:bg-gray-100 transition cursor-pointer text-black"
+                      onClick={() => navigate(subItem.link)}
                     >
-                      {subItem}
+                      {subItem.label}
                     </motion.li>
                   ))}
                 </motion.ul>
@@ -396,8 +426,9 @@ const Header: FC = () => {
                         key={idx}
                         variants={dropdownVariants}
                         className="px-4 py-2 border-b-[0.5px] border-gray-200 hover:bg-gray-100 transition cursor-pointer text-black"
+                        onClick={() => navigate(option.link)}
                       >
-                        {option}
+                        {option.label}
                       </motion.li>
                     ))}
                   </motion.ul>
@@ -406,7 +437,10 @@ const Header: FC = () => {
             </li>
           ))}
 
-          <li className="hover:text-red-500 cursor-pointer py-2">
+          <li
+            className="hover:text-red-500 cursor-pointer py-2"
+            onClick={() => navigate("/advertise-with-us")}
+          >
             Advertise With Us
           </li>
         </ul>
