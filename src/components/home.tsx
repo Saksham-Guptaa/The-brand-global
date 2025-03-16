@@ -17,6 +17,10 @@ import { getCurrentUser } from "@/lib/auth";
 import { Heart, MessageCircle } from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import Header from "./Header";
+import Carousel from "./Carousel";
+import PostAndVideo from "./PostAndVideo";
+import TopStories from "./Stories";
+import CategoriesSection from "./Categories";
 
 function Home() {
   const navigate = useNavigate();
@@ -99,6 +103,10 @@ function Home() {
   return (
     <>
       <Header />
+      <Carousel />
+      <PostAndVideo />
+      <TopStories />
+      <CategoriesSection />
       <div className="container mx-auto p-6">
         {/* Ads Section - Top */}
         {ads.length > 0 && (
