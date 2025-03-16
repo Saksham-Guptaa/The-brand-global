@@ -9,10 +9,11 @@ interface RightSectionProps {
 }
 
 const AdvertisementBanner: React.FC<RightSectionProps> = ({
-  advertisements,
+  advertisements = [],
 }) => {
   return (
-    <div className="flex flex-col space-y-4 p-4">
+    <div className="flex flex-col space-y-4">
+      <h3 className="font-bold text-lg mb-2">Sponsored</h3>
       {advertisements.map((ad, index) => (
         <a
           key={index}
@@ -21,12 +22,15 @@ const AdvertisementBanner: React.FC<RightSectionProps> = ({
           rel="noopener noreferrer"
           className="block"
         >
-          <div className="relative w-full h-96 shadow-md border rounded-lg overflow-hidden">
+          <div className="relative w-full shadow-md border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
             <img
               src={ad.imageUrl}
               alt={ad.altText}
-              className="hover:scale-105 transition-transform duration-300"
+              className="w-full h-auto hover:scale-105 transition-transform duration-300"
             />
+            <div className="p-2 bg-white">
+              <p className="text-sm font-medium">{ad.altText}</p>
+            </div>
           </div>
         </a>
       ))}
