@@ -16,7 +16,7 @@ export interface Magazine {
 
 const MagazineList: React.FC = () => {
   const [selectedMagazine, setSelectedMagazine] = useState<Magazine | null>(
-    null,
+    null
   );
 
   // Sample magazine data - replace with your actual data
@@ -26,8 +26,7 @@ const MagazineList: React.FC = () => {
       title: "Brand India: Tech Innovation 2024",
       coverImage:
         "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&q=80",
-      pdfUrl:
-        "https://res.cloudinary.com/dski9pira/image/upload/v1742180961/Magazine1_compressed_cahrhp.pdf", // Replace with your Cloudinary PDF URL
+      pdfUrl: "https://online.fliphtml5.com/iifgq/ronz/", // Replace with your Cloudinary PDF URL
       description:
         "Exploring the cutting-edge innovations driving India's tech revolution and the entrepreneurs behind them.",
       date: "June 2024",
@@ -37,50 +36,10 @@ const MagazineList: React.FC = () => {
       title: "Brand India: Sustainable Business",
       coverImage:
         "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80",
-      pdfUrl: "https://res.cloudinary.com/demo/image/upload/sample.pdf", // Replace with your Cloudinary PDF URL
+      pdfUrl: "https://online.fliphtml5.com/iifgq/yhih/", // Replace with your Cloudinary PDF URL
       description:
         "How Indian businesses are leading the way in sustainable practices and green initiatives across industries.",
       date: "May 2024",
-    },
-    {
-      id: "3",
-      title: "Brand India: Global Leadership",
-      coverImage:
-        "https://images.unsplash.com/photo-1494059980473-813e73ee784b?w=800&q=80",
-      pdfUrl: "https://res.cloudinary.com/demo/image/upload/sample.pdf", // Replace with your Cloudinary PDF URL
-      description:
-        "Highlighting Indian leaders making an impact on the global stage across business, politics, and culture.",
-      date: "April 2024",
-    },
-    {
-      id: "4",
-      title: "Brand India: Cultural Renaissance",
-      coverImage:
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&q=80",
-      pdfUrl: "https://res.cloudinary.com/demo/image/upload/sample.pdf", // Replace with your Cloudinary PDF URL
-      description:
-        "Exploring the revival and global influence of Indian arts, cinema, music, and cultural traditions.",
-      date: "March 2024",
-    },
-    {
-      id: "5",
-      title: "Brand India: Healthcare Innovation",
-      coverImage:
-        "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80",
-      pdfUrl: "https://res.cloudinary.com/demo/image/upload/sample.pdf", // Replace with your Cloudinary PDF URL
-      description:
-        "The latest breakthroughs in Indian healthcare, from affordable medical devices to cutting-edge research.",
-      date: "February 2024",
-    },
-    {
-      id: "6",
-      title: "Brand India: Future of Education",
-      coverImage:
-        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
-      pdfUrl: "https://res.cloudinary.com/demo/image/upload/sample.pdf", // Replace with your Cloudinary PDF URL
-      description:
-        "How India is reimagining education for the 21st century through technology, policy, and innovative teaching methods.",
-      date: "January 2024",
     },
   ];
 
