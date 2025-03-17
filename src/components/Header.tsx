@@ -157,6 +157,7 @@ const Header: FC = () => {
     {
       title: "Magazine",
       options: [
+        { label: "All Magazines", link: "/magazine" },
         { label: "Brand India Magazine", link: "/magazine/brand-india" },
       ],
     },
