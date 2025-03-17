@@ -23,7 +23,7 @@ import Industries from "./components/pages/industries/Industries";
 import IndustryDetail from "./components/pages/industries/IndustryDetail";
 import Associates from "./components/pages/associates/Associates";
 import ChannelPartners from "./components/pages/associates/ChannelPartners";
-import BrandIndiaMagazine from "./components/pages/magazine/BrandIndiaMagazine";
+import MagazineList from "./components/magazine/MagazineList";
 import Investors from "./components/pages/investors/Investors";
 import Angel from "./components/pages/investors/Angel";
 import VentureCapitals from "./components/pages/investors/VentureCapitals";
@@ -62,10 +62,7 @@ function App() {
           />
 
           {/* Magazine routes */}
-          <Route
-            path="/magazine/brand-india"
-            element={<BrandIndiaMagazine />}
-          />
+          <Route path="/magazine/brand-india" element={<MagazineList />} />
 
           {/* Investors routes */}
           <Route path="/investors" element={<Investors />} />
