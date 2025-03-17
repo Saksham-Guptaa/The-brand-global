@@ -16,7 +16,7 @@ export interface Magazine {
 
 const MagazineList: React.FC = () => {
   const [selectedMagazine, setSelectedMagazine] = useState<Magazine | null>(
-    null,
+    null
   );
 
   // Sample magazine data - replace with your actual data
@@ -26,7 +26,8 @@ const MagazineList: React.FC = () => {
       title: "Brand India: Tech Innovation 2024",
       coverImage:
         "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&q=80",
-      pdfUrl: "https://res.cloudinary.com/demo/image/upload/sample.pdf", // Replace with your Cloudinary PDF URL
+      pdfUrl:
+        "https://res.cloudinary.com/dski9pira/image/upload/v1742180961/Magazine1_compressed_cahrhp.pdf", // Replace with your Cloudinary PDF URL
       description:
         "Exploring the cutting-edge innovations driving India's tech revolution and the entrepreneurs behind them.",
       date: "June 2024",
