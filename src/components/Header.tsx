@@ -22,6 +22,9 @@ const Header: FC = () => {
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [isDesktopLeftSidebarOpen, setIsDesktopLeftSidebarOpen] =
+    useState<boolean>(false);
+
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [isTablet, setIsTablet] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -72,7 +75,7 @@ const Header: FC = () => {
       }
     } else {
       // Redirect to signup if not logged in
-      navigate("/signup");
+      navigate("/auth");
     }
   };
 
@@ -196,6 +199,14 @@ const Header: FC = () => {
       <div className="flex w-full md:w-auto justify-between items-center mb-4 md:mb-0">
         <img src={logo} alt="logo" className="w-20 h-auto md:w-24" />
 
+        {/* Desktop left sidebar toggle */}
+        <button
+          onClick={() => setIsLeftSidebarOpen(true)}
+          className="hidden lg:block text-white text-xl hover:text-red-500 cursor-pointer ml-4"
+        >
+          ☰
+        </button>
+
         <div className="flex md:hidden space-x-4">
           <button
             onClick={() => setShowSearch(!showSearch)}
@@ -212,7 +223,7 @@ const Header: FC = () => {
         </div>
       </div>
 
-      {/* Left Sidebar - Mobile */}
+      {/* Left Sidebar - Mobile & Desktop */}
       <AnimatePresence>
         {isLeftSidebarOpen && (
           <motion.div
@@ -357,53 +368,7 @@ const Header: FC = () => {
 
       {/* Desktop/Tablet Navigation */}
       <div className="hidden md:flex md:flex-row md:items-center md:space-x-6 lg:space-x-10">
-        {/* Left sidebar items for desktop */}
-        <ul className="flex space-x-4 lg:space-x-6">
-          {leftSidebarItems.map((item, index) => (
-            <li
-              key={index}
-              className="relative hover:text-red-500 cursor-pointer"
-              onMouseEnter={
-                item.dropdown ? () => setIsDropdownOpen(true) : undefined
-              }
-              onMouseLeave={
-                item.dropdown ? () => setIsDropdownOpen(false) : undefined
-              }
-              onClick={item.link ? () => navigate(item.link) : undefined}
-            >
-              <div className="flex items-center">
-                <span className="mr-1">{item.icon}</span>
-                <span>{item.label}</span>
-                {item.dropdown && (
-                  <span className="ml-1">{isDropdownOpen ? "▲" : "▼"}</span>
-                )}
-              </div>
-
-              {item.dropdown && isDropdownOpen && (
-                <motion.ul
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  variants={dropdownVariants}
-                  className="absolute top-full mt-2 w-52 border-t-4 border-red-600 bg-white shadow-lg overflow-hidden z-50"
-                >
-                  {item.dropdown.map((subItem, idx) => (
-                    <motion.li
-                      key={idx}
-                      variants={dropdownVariants}
-                      className="px-4 py-2 border-b-[0.5px] border-gray-200 hover:bg-gray-100 transition cursor-pointer text-black"
-                      onClick={() => navigate(subItem.link)}
-                    >
-                      {subItem.label}
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              )}
-            </li>
-          ))}
-        </ul>
-
-        {/* Main menu items */}
+        {/* Main menu items only (no left sidebar items) */}
         <ul className="hidden md:flex flex-wrap justify-center space-x-3 lg:space-x-6 xl:space-x-10">
           {menuItems.map((menu, index) => (
             <li

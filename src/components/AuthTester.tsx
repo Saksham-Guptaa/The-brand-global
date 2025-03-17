@@ -58,11 +58,11 @@ export default function AuthTester() {
         break;
     }
   };
-
   return (
     <div className="container mx-auto p-4 max-w-2xl">
-      <h1 className="text-2xl font-bold mb-4">Auth API Tester</h1>
-
+      <h1 className="text-2xl font-bold mb-4">
+        Welcome to The Brand Global Dashboard
+      </h1>
       <Tabs defaultValue="signup" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="signup">Sign Up</TabsTrigger>
