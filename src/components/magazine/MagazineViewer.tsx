@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,13 +8,17 @@ import {
   Download,
   ZoomIn,
   ZoomOut,
+  FileText,
 } from "lucide-react";
 import { Magazine } from "./MagazineList";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
 // Set up the worker for PDF.js
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "node_modules/pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url,
+).toString();
 
 interface MagazineViewerProps {
   magazine: Magazine;
@@ -29,10 +33,12 @@ const MagazineViewer: React.FC<MagazineViewerProps> = ({
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [scale, setScale] = useState<number>(1.0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     setIsLoading(false);
+    setError(null);
   };
 
   const changePage = (offset: number) => {
@@ -90,22 +96,53 @@ const MagazineViewer: React.FC<MagazineViewerProps> = ({
             </div>
           )}
 
-          <Document
-            file={magazine.pdfUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={(error) => console.error("Error loading PDF:", error)}
-            loading={<div className="text-center py-10">Loading PDF...</div>}
-            className="pdf-document"
-          >
-            <Page
-              pageNumber={pageNumber}
-              scale={scale}
-              renderTextLayer={true}
-              renderAnnotationLayer={true}
-              className="pdf-page"
-              loading={<div className="text-center py-10">Loading page...</div>}
-            />
-          </Document>
+          {error ? (
+            <div className="flex flex-col items-center justify-center h-64 w-full text-center">
+              <FileText className="h-16 w-16 text-red-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Error Loading PDF</h3>
+              <p className="text-gray-600 mb-4">{error}</p>
+              <p className="text-sm text-gray-500">
+                You can still download the file and view it externally
+              </p>
+              <Button
+                variant="default"
+                className="mt-4 bg-red-600 hover:bg-red-700"
+                onClick={handleDownload}
+              >
+                <Download className="h-4 w-4 mr-2" /> Download PDF
+              </Button>
+            </div>
+          ) : (
+            <Document
+              file={magazine.pdfUrl}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={(err) => {
+                console.error("Error loading PDF:", err);
+                setIsLoading(false);
+                setError(
+                  "Could not load the PDF. The file might be inaccessible or in an unsupported format.",
+                );
+              }}
+              loading={<div className="text-center py-10">Loading PDF...</div>}
+              className="pdf-document"
+            >
+              <Page
+                pageNumber={pageNumber}
+                scale={scale}
+                renderTextLayer={true}
+                renderAnnotationLayer={true}
+                className="pdf-page"
+                loading={
+                  <div className="text-center py-10">Loading page...</div>
+                }
+                error={
+                  <div className="text-center py-10 text-red-500">
+                    Error loading this page
+                  </div>
+                }
+              />
+            </Document>
+          )}
 
           <div className="flex justify-center items-center space-x-4 mt-4 sticky bottom-0 bg-white p-2 w-full">
             <Button

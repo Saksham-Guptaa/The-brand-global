@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Header from "../Header";
 import Footer from "../Footer";
 import MagazineCard from "./MagazineCard";
-import MagazineViewer from "./MagazineViewer";
+import PDFViewer from "./PDFViewer";
 
 export interface Magazine {
   id: string;
@@ -16,7 +16,7 @@ export interface Magazine {
 
 const MagazineList: React.FC = () => {
   const [selectedMagazine, setSelectedMagazine] = useState<Magazine | null>(
-    null
+    null,
   );
 
   // Sample magazine data - replace with your actual data
@@ -146,7 +146,7 @@ const MagazineList: React.FC = () => {
 
       {/* Magazine Viewer Modal */}
       {selectedMagazine && (
-        <MagazineViewer magazine={selectedMagazine} onClose={closeMagazine} />
+        <PDFViewer magazine={selectedMagazine} onClose={closeMagazine} />
       )}
     </div>
   );
