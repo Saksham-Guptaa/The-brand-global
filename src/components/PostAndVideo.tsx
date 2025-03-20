@@ -127,7 +127,7 @@ const PostAndVideo: FC = () => {
   };
 
   const latestVideo: LatestVideo = {
-    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    url: "https://www.youtube-nocookie.com/embed/9pBgorcA2D0",
   };
 
   const profile: Profile = {

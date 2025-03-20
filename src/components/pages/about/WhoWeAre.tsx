@@ -1,97 +1,106 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Header from "../../Header";
 import Footer from "../../Footer";
 
-const WhoWeAre = () => {
+const AboutUs = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header />
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8 text-center">Who We Are</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center">About Us</h1>
 
         <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            Welcome to The Business Gazette
+          </h2>
           <p className="text-gray-700 mb-4">
-            The Business Gazette was founded in 2015 by a group of business
-            journalists and industry experts who recognized the need for a
-            comprehensive, reliable source of business news and insights in the
-            digital age.
+            The Business Gazette (TBG) is a leading business media platform
+            dedicated to empowering entrepreneurs, startups, and industry
+            leaders with in-depth insights, latest trends, and valuable
+            resources.
           </p>
           <p className="text-gray-700 mb-4">
-            What began as a small digital publication has evolved into a
-            multi-platform media company serving millions of readers worldwide.
-            Through economic ups and downs, technological revolutions, and
-            global challenges, we've remained committed to our core mission:
-            delivering accurate, insightful, and actionable business information
-            to our audience.
+            Since our inception in 2015, we've evolved into a trusted platform
+            serving millions of business professionals worldwide. Our commitment
+            is to provide authentic, high-quality content that drives growth,
+            innovation, and success.
           </p>
           <p className="text-gray-700">
-            Today, The Business Gazette stands as a trusted voice in business
-            media, known for our in-depth analysis, exclusive interviews with
-            industry leaders, and commitment to journalistic integrity.
+            Whether you're a startup founder seeking investment, an entrepreneur
+            navigating business challenges, or an industry expert staying
+            updated, TBG is your go-to source for strategic insights and
+            expert-driven analysis.
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
-          <p className="text-gray-700 mb-4">
-            At The Business Gazette, our mission is to inform, inspire, and
-            empower our audience with high-quality, relevant content that helps
-            them navigate the complex business landscape and make better
-            decisions.
-          </p>
-          <p className="text-gray-700">
-            We strive to be the most trusted source of business information,
-            providing our readers with the knowledge and insights they need to
-            succeed in an ever-changing global economy.
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <Link
+            to="/about/who-we-are"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+          >
+            <h3 className="text-xl font-semibold mb-3">Who We Are</h3>
+            <p className="text-gray-600 mb-4">
+              Discover our mission, vision, and values that shape our journey.
+            </p>
+            <span className="text-red-600 font-medium">Read More →</span>
+          </Link>
+
+          <Link
+            to="/about/our-team"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+          >
+            <h3 className="text-xl font-semibold mb-3">Our Team</h3>
+            <p className="text-gray-600 mb-4">
+              Meet the passionate professionals behind The Business Gazette.
+            </p>
+            <span className="text-red-600 font-medium">Read More →</span>
+          </Link>
+
+          <Link
+            to="/about/our-impact"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+          >
+            <h3 className="text-xl font-semibold mb-3">Our Impact</h3>
+            <p className="text-gray-600 mb-4">
+              Learn how TBG is shaping the future of business journalism and
+              innovation.
+            </p>
+            <span className="text-red-600 font-medium">Read More →</span>
+          </Link>
+
+          <Link
+            to="/about/contact-us"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+          >
+            <h3 className="text-xl font-semibold mb-3">Contact Us</h3>
+            <p className="text-gray-600 mb-4">
+              Have questions or collaboration ideas? Let's talk!
+            </p>
+            <span className="text-red-600 font-medium">Read More →</span>
+          </Link>
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-8">
-          <h2 className="text-2xl font-semibold mb-6">Our Values</h2>
-          <div className="space-y-6">
+          <h2 className="text-2xl font-semibold mb-6">
+            Our Reach & Engagement
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-              <h3 className="text-xl font-semibold mb-2 text-red-600">
-                Accuracy & Integrity
-              </h3>
-              <p className="text-gray-700">
-                We are committed to the highest standards of journalistic
-                integrity, ensuring that all our content is accurate,
-                well-researched, and free from bias.
-              </p>
+              <div className="text-4xl font-bold text-red-600 mb-2">5M+</div>
+              <div className="text-gray-600">Monthly Readers</div>
             </div>
-
             <div>
-              <h3 className="text-xl font-semibold mb-2 text-red-600">
-                Innovation
-              </h3>
-              <p className="text-gray-700">
-                We embrace new technologies and formats to deliver our content
-                in ways that best serve our audience's evolving needs and
-                preferences.
-              </p>
+              <div className="text-4xl font-bold text-red-600 mb-2">150+</div>
+              <div className="text-gray-600">Countries</div>
             </div>
-
             <div>
-              <h3 className="text-xl font-semibold mb-2 text-red-600">
-                Inclusivity
-              </h3>
-              <p className="text-gray-700">
-                We believe in representing diverse perspectives and voices from
-                across the business world, ensuring our content is relevant to
-                professionals from all backgrounds.
-              </p>
+              <div className="text-4xl font-bold text-red-600 mb-2">2M+</div>
+              <div className="text-gray-600">Social Followers</div>
             </div>
-
             <div>
-              <h3 className="text-xl font-semibold mb-2 text-red-600">
-                Impact
-              </h3>
-              <p className="text-gray-700">
-                We measure our success by the value we provide to our readers
-                and the positive impact our content has on their professional
-                lives and businesses.
-              </p>
+              <div className="text-4xl font-bold text-red-600 mb-2">10K+</div>
+              <div className="text-gray-600">Published Articles</div>
             </div>
           </div>
         </div>
@@ -101,4 +110,4 @@ const WhoWeAre = () => {
   );
 };
 
-export default WhoWeAre;
+export default AboutUs;

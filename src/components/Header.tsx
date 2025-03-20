@@ -197,15 +197,15 @@ const Header: FC = () => {
   return (
     <div className="bg-black z-10 relative flex flex-col md:flex-row px-4 sm:px-8 md:px-12 lg:px-16 justify-between md:justify-around text-base sm:text-lg h-auto py-4 md:h-20 font-semibold text-white items-center">
       <div className="flex w-full md:w-auto justify-between items-center mb-4 md:mb-0">
-        <img src={logo} alt="logo" className="w-20 h-auto md:w-24" />
-
-        {/* Desktop left sidebar toggle */}
         <button
           onClick={() => setIsLeftSidebarOpen(true)}
-          className="hidden lg:block text-white text-xl hover:text-red-500 cursor-pointer ml-4"
+          className="hidden lg:block mr-10 text-white text-xl hover:text-red-500 cursor-pointer "
         >
           ☰
         </button>
+        <img src={logo} alt="logo" className="w-20 h-auto md:w-24" />
+
+        {/* Desktop left sidebar toggle */}
 
         <div className="flex md:hidden space-x-4">
           <button

@@ -65,7 +65,22 @@ function App() {
           {/* Magazine routes */}
           <Route path="/magazine" element={<MagazineList />} />
           <Route path="/magazine/brand-india" element={<MagazineList />} />
-          <Route path="/magazine/:id" element={<MagazineViewer />} />
+          <Route
+            path="/magazine/:id"
+            element={
+              <MagazineViewer
+                magazine={{
+                  id: "defaultId",
+                  title: "Default Title",
+                  coverImage: "defaultCoverImage.jpg", // Replace with actual cover image URL
+                  pdfUrl: "defaultPdfUrl.pdf", // Replace with actual PDF URL
+                  description: "Default description", // Replace with actual description
+                  date: "2023-01-01", // Replace with actual date
+                }} // Replace with actual data
+                onClose={() => console.log("MagazineViewer closed")} // Replace with actual handler
+              />
+            }
+          />
 
           {/* Investors routes */}
           <Route path="/investors" element={<Investors />} />
